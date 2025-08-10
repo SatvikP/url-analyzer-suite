@@ -1,13 +1,55 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import { AuthProvider } from "@/contexts/AuthContext";
+import { HeroAnalyzeCard } from "@/components/HeroAnalyzeCard";
+import { PricingSection } from "@/components/PricingSection";
+import { Button } from "@/components/ui/button";
+import { useAuth } from "@/contexts/AuthContext";
+import { AuthModal } from "@/components/AuthModal";
+
+const Header = () => {
+  const { user, signOut } = useAuth();
+  return (
+    <header className="w-full">
+      <nav className="container py-4 flex items-center justify-between">
+        <a href="#" className="text-xl font-extrabold">RateMyWebsite</a>
+        <div className="flex items-center gap-3">
+          {user ? (
+            <Button variant="secondary" onClick={signOut}>Sign Out</Button>
+          ) : (
+            <AuthModal />
+          )}
+        </div>
+      </nav>
+    </header>
+  );
+};
+
+const Footer = () => (
+  <footer className="border-t">
+    <div className="container py-8 text-sm text-muted-foreground flex items-center justify-between">
+      <p>© {new Date().getFullYear()} RateMyWebsite</p>
+      <a href="#pricing" className="hover:underline">Pricing</a>
+    </div>
+  </footer>
+);
+
+const Page = () => (
+  <>
+    <Header />
+    <main>
+      <HeroAnalyzeCard />
+      <div id="pricing">
+        <PricingSection />
+      </div>
+    </main>
+    <Footer />
+  </>
+);
 
 const Index = () => {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-background">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4">Welcome to Your Blank App</h1>
-        <p className="text-xl text-muted-foreground">Start building your amazing project here!</p>
-      </div>
-    </div>
+    <AuthProvider>
+      <Page />
+    </AuthProvider>
   );
 };
 
