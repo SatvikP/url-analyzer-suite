@@ -41,7 +41,7 @@ export const HeroAnalyzeCard = () => {
         try {
           const start = new Date();
           start.setDate(start.getDate() - 30);
-          const { data: countData } = await supabase
+          const { data: countData } = await (supabase as any)
             .from("tests")
             .select("id", { count: 'exact', head: true })
             .gte("created_at", start.toISOString())
@@ -58,7 +58,7 @@ export const HeroAnalyzeCard = () => {
 
       const payload = { user_id: user.id, url, score, analysis, recommendations, created_at: new Date().toISOString() };
       try {
-        const { error } = await supabase.from("tests").insert(payload);
+        const { error } = await (supabase as any).from("tests").insert(payload);
         if (error) throw error;
         toast({ title: "Analysis saved", description: "Your result has been recorded." });
       } catch {
